@@ -11,3 +11,4 @@
   </div><p />
 <script src="<?php echo $assets['jquery']; ?>"></script>
 <?php echo (isset($msg))? $msg:""; ?>
+<script src="<?php echo $assets['bootstrap_js']; ?>"></script>

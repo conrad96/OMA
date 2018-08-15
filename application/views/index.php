@@ -1,6 +1,5 @@
 <?php include("shared/header.php"); ?>
 <div class="container">
-<?php if(isset($msg)) echo $msg; ?>
 	<div class="login_form">
 <form action='<?php echo $assets['base_url'].'Market/login'; ?>' method="POST" class="form-horizontal" >
 
@@ -22,7 +21,8 @@
 			<input type="submit" value="Login" class="btn btn-success" id="login_btn">
 		</div>
 	</div>
-</form>
+</form><p />
+<h3><a href='#'>Click Here to Signup&nbsp;&nbsp;&nbsp;<span class='fa fa-hand-o-left'></span></a></h3>
 </div>
 </div>
 

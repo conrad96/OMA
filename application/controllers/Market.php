@@ -1,6 +1,7 @@
 <?php
 class Market extends CI_Controller{
 
+
   public function assets(){
 		$data['bootstrap']=$this->config->item("bootstrap");
 		$data['base_url']=$this->config->item("base_url");
@@ -12,6 +13,7 @@ class Market extends CI_Controller{
 		return $data;
 	}
   public function index(){
+
     $data['assets']=$this->assets();
     $data['msg']="";
     $this->load->view("index",$data);
@@ -42,15 +44,78 @@ class Market extends CI_Controller{
 		}
 	}//end login
 
-    public function farmer($id,$name){
+    public function farmer($id,$uname){
       $data['id']=$id;
-      $data['name']=$name;
+      $data['name']=$uname;
       $data['msg']="";
       $data['assets']=$this->assets();
       $this->load->view("farmer.php",$data);
     }
     public function buyer($id,$name){
-
+      $data['id']=$id;
+      $data['name']=$name;
+      $data['msg']="";
+      $data['assets']=$this->assets();
+      $this->load->view("buyer.php",$data);
+    }
+    //Functionality
+    public function post_product($id,$name){
+      $package=array($this->input->post("title"),$this->input->post("description"),$this->input->post("price"),$id);
+      $bool=$this->Tasks->post_product($package);
+      if($bool){
+        $data['msg']="<div class='row alert alert-success'><center>Product Posted successfully</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $this->load->view("farmer.php",$data);
+      }else{
+        $data['msg']="<div class='row alert alert-danger'><center>Product Not Posted .Error Occured</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $this->load->view("farmer.php",$data);
+      }
+    }
+    public function complain($id,$name){
+      $package=array($this->input->post("title"),$this->input->post("body"),$id);
+      $bool=$this->Tasks->post_complain($package);
+      if($bool){
+        $data['msg']="<div class='row alert alert-success'><center>Complaint Sent</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['news_feed']=$this->Tasks->news_feed();
+        $this->load->view("farmer.php",$data);
+      }else{
+        $data['msg']="<div class='row alert alert-danger'><center>Complaint Not sent. Error Occured</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['news_feed']=$this->Tasks->news_feed();
+        $this->load->view("farmer.php",$data);
+      }
+    }
+    public function post_status($id,$name){
+      $package=array($id,$this->input->post("post_body"));
+      $bool=$this->Tasks->post_status($package);
+      if($bool){
+        $data['msg']="<div class='row alert alert-success'><center>Status Posted</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['news_feed']=$this->Tasks->news_feed();
+        $this->load->view("farmer.php",$data);
+      }else{
+        $data['msg']="<div class='row alert alert-danger'><center>Status Not posted. Error Occured</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['news_feed']=$this->Tasks->news_feed();
+        $this->load->view("farmer.php",$data);
+      }
+      }
+    public function logout(){
+      $this->index();
     }
 }
 ?>

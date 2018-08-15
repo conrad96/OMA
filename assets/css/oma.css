@@ -12,7 +12,7 @@
 #login_btn{
 	width: 300px;
 }
- 
+
 #in_f{
 	height: 40px;
 	width: 300px;
@@ -25,4 +25,13 @@
 	font-size: 15px;
 	text-transform: capitalize;
 	text-orientation: italic;
+}
+#left_panel_f{
+	height: 64%;
+	width: 100%;
+
+}
+#right_panel_f{
+	height: 64%;
+	width: 100%;
 }
