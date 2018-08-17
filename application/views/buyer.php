@@ -1,4 +1,4 @@
-<?php include("farmer-nav.php"); ?>
+<?php include("buyer-nav.php"); ?>
 <div class='container-fluid'>
   <h4>Welcome. <?php echo !empty($name)? $name:""; ?></h4>
   <p />
@@ -10,8 +10,8 @@
 </div>
 <div class='panel-body' id="left_panel_f">
 <ul class="list-group">
-<li class="list-group-item"><a href='#'><span class='fa fa-camera-retro'></span>Post product</a></li>
-<li class="list-group-item"><a href='#'><span class='fa fa-wechat'></span>Complain</a></li>
+<li class="list-group-item"><a href='#'><span class='fa fa-camera-retro'></span>View wall</a></li>
+<li class="list-group-item"><a href='#'><span class='fa fa-wechat'></span>Chat</a></li>
 <li class="list-group-item"><a href='#'><span class='fa fa-user'></span>Profile</a></li>
 </ul>
 <p />
@@ -32,7 +32,7 @@
 <h3 class="panel-title"><b style='padding-left:300px;'>NEWS FEED</b><span class='pull-right' style='color:red;padding-bottom:5px;'><span class='fa fa-envelope'><span class='badge'>5</span></span></span></h3>
 </div>
 <div class="panel-body" id="right_panel_f">
-
+<!-- so and so posted a product with links to chat nd bargain -->
 </div>
 </div>
 </div>

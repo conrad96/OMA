@@ -62,6 +62,144 @@
   </div>
 </div>
 <!-- End modals-->
+<!-- view wall modal-->
+<div id="myModal_view" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">View Wall</h4>
+      </div>
+      <div class="modal-body">
+        <form action=<?php echo $assets['base_url'].'Market/post_product/'.$id.'/'.$name; ?> method="POST" class='form-horizontal'>
+<div class="form-group">
+<label class="col-md-3">Title</label>
+<div class="col-md-5">
+<input type="text" class="form-control" placeholder="Type title of product" name="title"  required />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Description</label>
+<div class="col-md-5">
+<textarea name="description" placeholder="Type Description about product" class="form-control" style="height:250px;width:300px;"></textarea>
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Price</label>
+<div class="col-md-5">
+<input type="number" class="form-control" required placeholder="Type price of product" name="price" />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">&nbsp;</label>
+<div class="col-md-5">
+<input type="submit" value="Post" class="btn btn-primary" style="width:100px;"/>
+</div>
+</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- end view modal-->
+<!-- complain modal-->
+<div id="myModal_complain" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Post a Complaint</h4>
+      </div>
+      <div class="modal-body">
+        <form action=<?php echo $assets['base_url'].'Market/post_product/'.$id.'/'.$name; ?> method="POST" class='form-horizontal'>
+<div class="form-group">
+<label class="col-md-3">Title</label>
+<div class="col-md-5">
+<input type="text" class="form-control" placeholder="Type title of product" name="title"  required />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Description</label>
+<div class="col-md-5">
+<textarea name="description" placeholder="Type Description about product" class="form-control" style="height:250px;width:300px;"></textarea>
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Price</label>
+<div class="col-md-5">
+<input type="number" class="form-control" required placeholder="Type price of product" name="price" />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">&nbsp;</label>
+<div class="col-md-5">
+<input type="submit" value="Post" class="btn btn-primary" style="width:100px;"/>
+</div>
+</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- end complain modal-->
+<!-- profile modal-->
+<div id="myModal_profile" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">View Profile</h4>
+      </div>
+      <div class="modal-body">
+        <form action=<?php echo $assets['base_url'].'Market/post_product/'.$id.'/'.$name; ?> method="POST" class='form-horizontal'>
+<div class="form-group">
+<label class="col-md-3">Title</label>
+<div class="col-md-5">
+<input type="text" class="form-control" placeholder="Type title of product" name="title"  required />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Description</label>
+<div class="col-md-5">
+<textarea name="description" placeholder="Type Description about product" class="form-control" style="height:250px;width:300px;"></textarea>
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">Price</label>
+<div class="col-md-5">
+<input type="number" class="form-control" required placeholder="Type price of product" name="price" />
+</div>
+</div>
+<div class="form-group">
+<label class="col-md-3">&nbsp;</label>
+<div class="col-md-5">
+<input type="submit" value="Post" class="btn btn-primary" style="width:100px;"/>
+</div>
+</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- end profile modal-->
 <form class='form-horizontal'>
 <div class="form-group" style="padding-left:10px;">
 <textarea name="post" placeholder="What's on Your Mind ??  Send broadcast message to All " style='width:400px;height:150px;' class="form-control"></textarea>
