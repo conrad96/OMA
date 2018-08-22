@@ -2,15 +2,12 @@
 <div class="container">
 	<div class="login_form">
 <form action='<?php echo $assets['base_url'].'Market/login'; ?>' method="POST" class="form-horizontal" >
-
 	<div class="form-group">
-
 		<div class="col-md-9">
 			<input type="text" name="username" placeholder="Username" id="in_f" class='fom-control'>
 		</div>
 	</div>
 	<div class="form-group">
-
 		<div class="col-md-9">
 			<input type="password" name="password" placeholder="Password" id="in_f" class='fom-control'>
 		</div>
@@ -22,7 +19,12 @@
 		</div>
 	</div>
 </form><p />
-<h3><a href='#'>Click Here to Signup&nbsp;&nbsp;&nbsp;<span class='fa fa-hand-o-left'></span></a></h3>
+<table class="table">
+	<tr>
+<td><a href='<?php echo $assets["base_url"]."Market/redirect_signup_b"; ?>' class="btn btn-default">Click Here to create Buyer Account&nbsp;&nbsp;&nbsp;<span class='fa fa-hand-o-left'></span></a></td>
+<td><a href=<?php echo $assets['base_url']."Market/redirect_signup_f"; ?> class="btn btn-default">Click Here to create Farmer Account&nbsp;&nbsp;&nbsp;<span class='fa fa-hand-o-left'></span></a></td>
+	</tr>
+</table>
 </div>
 </div>
 
