@@ -439,7 +439,7 @@ $x++;
     }
     echo "</ul>";
   }else{
-    echo "<div class='row alert alert-info'><i class='fa fa-exclamation-triangle'></i>No Products Posted yet. Please wait...</div>";
+    echo "<div class='row alert alert-info'><i class='fa fa-exclamation-triangle'></i>No Products have been Posted yet. Please wait...</div>";
   }
 }
 ?>

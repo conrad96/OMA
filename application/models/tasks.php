@@ -50,6 +50,10 @@ class Tasks extends CI_Model{
     $query=$this->db->query("UPDATE farmers SET password='$array[0]' WHERE NINnumber='$array[1]' ");
     return ($this->db->affected_rows()>0)? true:false;
   }
+  public function edit_buyer_pwd($array){
+    $query=$this->db->query("UPDATE buyers SET password='$array[0]' WHERE NINnumber='$array[1]' ");
+    return ($this->db->affected_rows()>0)? true:false;
+  }
   public function sold_products($id){
     return $this->db->select("*")->from("product")->where("prod_status",'sold')->where("NINnumber",$id)->get()->result();
   }
@@ -92,5 +96,18 @@ class Tasks extends CI_Model{
     $this->db->query("UPDATE admin SET password='$array[0]' WHERE NINnumber='$array[1]' ");
     return ($this->db->affected_rows()>0)? true:false;
   }
+  public function message_farmer($array){
+    return ($this->db->insert("messages",$array))? true:false;
+  }
+  public function sent($id){
+    return $this->db->query("SELECT * FROM messages INNER JOIN farmers ON farmers.NINnumber=messages.farmer_NINnumber WHERE messages.buyer_NINnumber='$id' ORDER BY messages.id DESC")->result();
+  }
+  public function inbox($id){
+    return $this->db->query("SELECT * FROM inbox INNER JOIN farmers ON farmers.NINnumber=inbox.farmer_NINnumber WHERE inbox.buyer_NINnumber='$id' AND inbox.status='replied' ORDER BY inbox.id DESC")->result();
+  }
+  public function profile_buyer($id){
+    return $this->db->select("*")->from("buyers")->where("NINnumber",$id)->get()->result();
+  }
+
 }
 ?>

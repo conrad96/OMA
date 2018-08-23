@@ -62,7 +62,7 @@ if(!empty($sold_products)){
         <span class="text-muted pull-right"><?php echo $r->prod_price." UGX"; ?></span>
       </li>
       <li class='list-group-item'><b class='label label-primary'>Status:</b>
-        <span class="text-muted pull-right"><?php echo $r->prod_status."&nbsp;&nbsp;&nbsp;[On Sale]"; ?></span>
+        <span class="text-muted pull-right"><?php echo $r->prod_status."&nbsp;&nbsp;&nbsp;"; ?></span>
       </li>
     </ul>
       </div>

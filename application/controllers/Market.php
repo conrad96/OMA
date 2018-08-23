@@ -12,7 +12,6 @@ class Market extends CI_Controller{
 		return $data;
 	}
   public function index(){
-
     $data['assets']=$this->assets();
     $data['msg']="";
     $this->load->view("index",$data);
@@ -125,6 +124,7 @@ public function add_farmer(){
       $data['buyers']=$this->Tasks->buyers();
       $data['farmers']=$this->Tasks->farmers();
       $data['profile']=$this->Tasks->profile_admin($id);
+      $data['feed']=$this->Tasks->feed();
       $this->load->view("admin",$data);
     }
     public function add_Market($id,$name){
@@ -179,7 +179,37 @@ $data['feed']=$this->Tasks->feed();
   $data['count']=$this->Tasks->count();
 $data['profile']=$this->Tasks->profile_farmer($id);
 $data['sold_products']=$this->Tasks->sold_products($id);
+$data['sent']=$this->Tasks->sent($id);
+$data['inbox']=$this->Tasks->inbox($id);
+$data['profile']=$this->Tasks->profile_buyer($id);
       $this->load->view("buyer",$data);
+    }
+    public function contact_farmer($id,$name){
+      $package=$this->input->post(NULL,TRUE);
+      $bool=$this->Tasks->message_farmer($package);
+      if($bool){
+        $data['id']=$id;
+        $data['name']=$name;
+          $data['msg']="<div class='row alert alert-success'><center>Message sent successfully</center></div>";
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+  $data['feed']=$this->Tasks->feed();
+    $data['count']=$this->Tasks->count();
+  $data['profile']=$this->Tasks->profile_farmer($id);
+  $data['sold_products']=$this->Tasks->sold_products($id);
+        $this->load->view("buyer",$data);
+      }else{
+        $data['id']=$id;
+        $data['name']=$name;
+          $data['msg']="<div class='row alert alert-danger'><center>Message Not sent</center></div>";
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+  $data['feed']=$this->Tasks->feed();
+    $data['count']=$this->Tasks->count();
+  $data['profile']=$this->Tasks->profile_farmer($id);
+  $data['sold_products']=$this->Tasks->sold_products($id);
+        $this->load->view("buyer",$data);
+      }
     }
     //Functionality
     public function post_product($id,$uname){
@@ -332,6 +362,46 @@ if($this->input->post("pwd")!=$this->input->post("cpwd")){
     $data['profile']=$this->Tasks->profile_farmer($id);
       $data['sold_products']=$this->Tasks->sold_products($id);
     $this->load->view("farmer",$data);
+  }
+}
+      }
+      public function edit_buyer_pwd($id,$name){
+if($this->input->post("pwd")!=$this->input->post("cpwd")){
+  $data['id']=$id;
+  $data['name']=$name;
+    $data['msg']="<div class='row alert alert-danger'><center>Password Mismatch. try again</center></div>";
+  $data['assets']=$this->assets();
+  $data['wall']=$this->Tasks->wall();
+$data['feed']=$this->Tasks->feed();
+$data['count']=$this->Tasks->count();
+$data['profile']=$this->Tasks->profile_farmer($id);
+$data['sold_products']=$this->Tasks->sold_products($id);
+  $this->load->view("buyer",$data);
+}else{
+  $package=array($this->input->post("cpwd"),$id);
+  $bool=$this->Tasks->edit_buyer_pwd($package);
+  if($bool){
+    $data['id']=$id;
+    $data['name']=$name;
+      $data['msg']="<div class='row alert alert-success'><center>Password changed successfully</center></div>";
+    $data['assets']=$this->assets();
+    $data['wall']=$this->Tasks->wall();
+    $data['feed']=$this->Tasks->feed();
+    $data['count']=$this->Tasks->count();
+    $data['profile']=$this->Tasks->profile_farmer($id);
+    $data['sold_products']=$this->Tasks->sold_products($id);
+    $this->load->view("buyer",$data);
+  }else{
+    $data['id']=$id;
+    $data['name']=$name;
+      $data['msg']="<div class='row alert alert-danger'><center>Password not changed. </center></div>";
+    $data['assets']=$this->assets();
+    $data['wall']=$this->Tasks->wall();
+    $data['feed']=$this->Tasks->feed();
+    $data['count']=$this->Tasks->count();
+    $data['profile']=$this->Tasks->profile_farmer($id);
+    $data['sold_products']=$this->Tasks->sold_products($id);
+    $this->load->view("buyer",$data);
   }
 }
 
