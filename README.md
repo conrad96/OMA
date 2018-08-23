@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/conrad96/OMA.svg?branch=master)](https://travis-ci.org/conrad96/OMA)
+
 # CodeIgniter 2
 Open Source PHP Framework (originally from EllisLab)
 
