@@ -11,7 +11,7 @@
 <div class='panel-body' id="left_panel_f">
 <ul class="list-group">
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_view"  data-backdrop='static'><span class='fa fa-list-ul'></span>View Wall</a></li>
-<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_post"  data-backdrop='static'><span class='fa fa-envelope-o'></span>&nbsp;Inbox<span class="badge"><?php //inbox count ?></span></a></li>
+<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_post"  data-backdrop='static'><span class='fa fa-envelope-o'></span>&nbsp;Inbox<span class="badge"><?php echo $inbox_count; ?></span></a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_sold"  data-backdrop='static'><span class='fa fa-envelope'></span>Sent Messages</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-wechat'></span>Complaints</a></li>
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_profile" data-backdrop='static' ><span class='fa fa-user'></span>Profile</a></li>
@@ -25,16 +25,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Sent Messages<span class='pull-right badge'>
-<?php
-$ini=0;
-if(!empty($sent)){
-foreach($sent as $r) $ini++;
-echo $ini;
-}else{
-  echo $ini;
-}
-?>
+        <h4 class="modal-title">Sent Messages<span class='pull-right badge'><?php echo $count_sent_buyer; ?>
         </span></h4>
       </div>
       <div class="modal-body" style="height:400px;overflow:auto;">
@@ -87,31 +78,31 @@ if(!empty($sent)){
     <div class="modal-content modal-lg">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Inbox</h4>
+        <h4 class="modal-title">Inbox </h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="height:450px;overflow:auto;">
 <form class='form-horizontal'>
   <?php
 if(!empty($inbox)){
+  foreach($inbox as $m){
 ?>
 <ul class='list-group'>
   <li class='list-group-item'><b class='label label-primary'>From:</b>
-    <span class="text-muted pull-right"><?php echo $r->surname." ".$r->othername; ?></span>
+    <span class="text-muted pull-right"><?php echo $m->surname." ".$r->othername; ?></span>
   </li>
   <li class='list-group-item'><b class='label label-primary'>Subject:</b>
-    <span class="text-muted pull-right"><?php echo $r->subject; ?></span>
+    <span class="text-muted pull-right"><?php echo $m->subject; ?></span>
   </li>
   <li class='list-group-item'><b class='label label-primary'>Body:</b>
-    <span class="text-muted pull-right"><?php echo $r->body; ?></span>
+    <span class="text-muted pull-right"><?php echo $m->body; ?></span>
   </li>
   <li class='list-group-item'><b class='label label-primary'>Date:</b>
-    <span class="text-muted pull-right"><?php echo $r->dtime_posted; ?></span>
+    <span class="text-muted pull-right"><?php echo $m->dtime_posted; ?></span>
   </li>
-  <li class='list-group-item'><b class='label label-primary'>Reply:</b>
-    <span class="text-muted pull-right"><a><span class="fa fa-send"></span>Reply</a></span>
-  </li>
+
 </ul>
 <?php
+ }
 }else{
   echo "<div class='alert alert-warning'><center>No messages received yet...<span class='fa fa-twitter'></span></center></div>";
 }
@@ -341,6 +332,7 @@ $x=0;
 <textarea class="form-control" name="body" placeholder="Type Message body here..." style="width:270px;height:210px;"></textarea>
 </div>
 </div>
+<input type="hidden" name="status" value="unread" />
 <div class="form-group">
   <label class="col-md-3">&nbsp;</label>
 <div class="col-md-6">

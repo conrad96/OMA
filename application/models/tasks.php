@@ -97,13 +97,31 @@ class Tasks extends CI_Model{
     return ($this->db->affected_rows()>0)? true:false;
   }
   public function message_farmer($array){
-    return ($this->db->insert("messages",$array))? true:false;
+    return ($this->db->insert("inbox",$array))? true:false;
   }
   public function sent($id){
-    return $this->db->query("SELECT * FROM messages INNER JOIN farmers ON farmers.NINnumber=messages.farmer_NINnumber WHERE messages.buyer_NINnumber='$id' ORDER BY messages.id DESC")->result();
+    return $this->db->query("SELECT * FROM inbox INNER JOIN farmers ON farmers.NINnumber=inbox.farmer_NINnumber WHERE inbox.buyer_NINnumber='$id' ORDER BY inbox.id DESC")->result();
   }
-  public function inbox($id){
-    return $this->db->query("SELECT * FROM inbox INNER JOIN farmers ON farmers.NINnumber=inbox.farmer_NINnumber WHERE inbox.buyer_NINnumber='$id' AND inbox.status='replied' ORDER BY inbox.id DESC")->result();
+  public function count_sent_buyer($id){
+    return $this->db->query("SELECT * FROM inbox WHERE inbox.buyer_NINnumber='$id'  ")->num_rows();
+  }
+  public function inbox_farmer($id){
+    return $this->db->query("SELECT * FROM inbox INNER JOIN buyers ON buyers.NINnumber=inbox.buyer_NINnumber WHERE inbox.farmer_NINnumber='$id' AND inbox.status='unread' ORDER BY inbox.id DESC")->result();
+  }
+
+  public function inbox_buyer($id){
+    return $this->db->query("SELECT * FROM messages INNER JOIN farmers ON farmers.NINnumber=messages.farmer_NINnumber WHERE messages.buyer_NINnumber='$id' AND messages.status='unread' ORDER BY messages.dtime_posted DESC")->result();
+  }
+  public function inbox_buyer_count($id){
+    return $this->db->query("SELECT * FROM messages WHERE messages.buyer_NINnumber='$id' AND messages.status='unread' ")->num_rows();
+  }
+  public function message_buyer($array,$id){
+    if($this->db->insert("messages",$array)){
+      $update_read=$this->db->query("UPDATE inbox SET status='read' WHERE id='$id' ");
+      return ($this->db->affected_rows()>0)? true:false;
+    }else{
+      return false;
+    }
   }
   public function profile_buyer($id){
     return $this->db->select("*")->from("buyers")->where("NINnumber",$id)->get()->result();

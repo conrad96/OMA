@@ -14,9 +14,90 @@
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_post"  data-backdrop='static'><span class='fa fa-camera-retro'></span>Post product</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_sold"  data-backdrop='static'><span class='fa fa-money'></span>Sold products</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-wechat'></span>Complain</a></li>
+<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_inbox"  data-backdrop='static'><span class='fa fa-envelope-o'></span>&nbsp;Inbox<span class="badge"><?php
+$in=0;
+if(!empty($inbox)){
+foreach($inbox as $r) $in++;
+echo $in;
+}else{
+  echo $in;
+}
+?></span></a></li>
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_profile" data-backdrop='static' ><span class='fa fa-user'></span>Profile</a></li>
 </ul>
 <p />
+<!-- sold modal-->
+<div id="myModal_inbox" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">INBOX<spa$inboxn class='pull-right badge'>
+<?php
+$ini=0;
+if(!empty($inbox)){
+foreach($inbox as $r) $ini++;
+echo $ini;
+}else{
+  echo $ini;
+}
+?>
+        </span></h4>
+      </div>
+      <div class="modal-body" style="height:400px;overflow:auto;">
+<form  method="POST" class='form-horizontal' enctype="multipart/form-data">
+<?php
+if(!empty($inbox)){
+  $l=0;
+  $msg_id=0;
+  $farmerId="";
+  foreach($inbox as $r ){
+    $msg_id=$r->id;
+    $farmerId=$r->NINnumber;
+    ?>
+    <ul class='list-group'>
+      <li class='list-group-item'><b class='label label-primary'>From:</b>
+        <span class="text-muted pull-right"><?php echo $r->surname." ".$r->othername; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Subject:</b>
+        <span class="text-muted pull-right"><?php echo $r->subject; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Body:</b>
+        <span class="text-muted pull-right"><?php echo $r->body; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Status:</b>
+        <span class="text-muted pull-right"><?php echo $r->status; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Date posted:</b>
+        <span class="text-muted pull-right"><?php echo $r->dtime_posted; ?></span>
+      </li>
+      <li class='list-group-item'><b>&nbsp;</b>
+        <span class="pull-right"><a data-target='#myModal_reply' data-toggle='modal' data-backdrop='static'><span class="fa fa-mail-reply"></span>&nbsp;Reply</a></span>
+      </li>
+    </ul>
+    <hr />
+
+    <?php
+  $l++;  }
+  }else{
+    echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No New Message Received ...<i class='fa fa-twitter'></i></div>";
+  }
+
+?>
+</form>
+
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- reply modal-->
+
 <!-- sold modal-->
 <div id="myModal_sold" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -419,6 +500,48 @@ $x++;
 </div>
 </div>
 </div>
+  </div>
+</div>
+<div id="myModal_reply" class="modal fade" role="dialog" >
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reply Message</h4>
+      </div>
+      <div class="modal-body" >
+    <form method="POST" action=<?php echo $assets['base_url']."Market/reply_buyer/".$id.'/'.$name.'/'.$msg_id; ?> class="form-horizontal" >
+      <input type="hidden" name="buyer_NINnumber" value="<?php echo $farmerId; ?>" />
+      <input  type="hidden" name="farmer_NINnumber" value="<?php echo $id; ?>" />
+
+      <div class="form-group">
+      <label class="col-md-3">Subject</label>
+      <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Subject of the Message" name="subject" />
+      </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3">Body:</label>
+      <div class="col-md-6">
+      <textarea class="form-control" name="body" placeholder="Type Message body here..." style="width:270px;height:210px;"></textarea>
+      </div>
+      </div>
+      <input type="hidden" name="status" value="unread" />
+      <div class="form-group">
+        <label class="col-md-3">&nbsp;</label>
+      <div class="col-md-6">
+      <input type="submit" class="btn btn-primary" value="Send Message"/>
+      </div>
+      </div>
+    </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
   </div>
 </div>
 <?php include("shared/footer.php"); ?>

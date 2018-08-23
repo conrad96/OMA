@@ -1,6 +1,8 @@
 <?php
 class Market extends CI_Controller{
-
+public function __construct(){
+  $this->load->helper->("AfricasTalkingGateway");
+}
   public function assets(){
 		$data['bootstrap']=$this->config->item("bootstrap");
 		$data['base_url']=$this->config->item("base_url");
@@ -114,6 +116,7 @@ public function add_farmer(){
       $data['count']=$this->Tasks->count();
       $data['profile']=$this->Tasks->profile_farmer($id);
       $data['sold_products']=$this->Tasks->sold_products($id);
+      $data['inbox']=$this->Tasks->inbox_farmer($id);
       $this->load->view("farmer",$data);
     }
     public function admin($id,$name){
@@ -170,44 +173,95 @@ public function add_farmer(){
       }
     }
     public function buyer($id,$name){
-      $data['id']=$id;
-      $data['name']=$name;
-      $data['msg']="";
-      $data['assets']=$this->assets();
-      $data['wall']=$this->Tasks->wall();
-$data['feed']=$this->Tasks->feed();
-  $data['count']=$this->Tasks->count();
-$data['profile']=$this->Tasks->profile_farmer($id);
-$data['sold_products']=$this->Tasks->sold_products($id);
-$data['sent']=$this->Tasks->sent($id);
-$data['inbox']=$this->Tasks->inbox($id);
-$data['profile']=$this->Tasks->profile_buyer($id);
-      $this->load->view("buyer",$data);
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['msg']="";
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+        $data['feed']=$this->Tasks->feed();
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+        $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+        $data['sent']=$this->Tasks->sent($id);
+        $data['profile']=$this->Tasks->profile_buyer($id);
+        $data['inbox']=$this->Tasks->inbox_buyer($id);
+        $this->load->view("buyer",$data);
+    }
+    public function reply_buyer($id,$name,$msg_id){
+      $package=$this->input->post(NULL,TRUE);
+      $bool=$this->Tasks->message_buyer($package,$msg_id);
+      if($bool){
+        $data['msg']="<div class='row alert alert-success'><center>Message sent successfully<i class='fa fa-twitter'></i></center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+        $data['feed']=$this->Tasks->feed();
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $data['sold_products']=$this->Tasks->sold_products($id);
+        $this->load->view("farmer",$data);
+      }else{
+        $data['msg']="<div class='row alert alert-danger'><center>Message Not sent .Error Occured</center></div>";
+        $data['id']=$id;
+        $data['name']=$uname;
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+        $data['feed']=$this->Tasks->feed();
+          $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $this->load->view("farmer",$data);
+      }
     }
     public function contact_farmer($id,$name){
-      $package=$this->input->post(NULL,TRUE);
-      $bool=$this->Tasks->message_farmer($package);
-      if($bool){
-        $data['id']=$id;
-        $data['name']=$name;
+      $email="";
+          $package=$this->input->post(NULL,TRUE);
+        //  $bool=$this->Tasks->message_farmer($package);
+          $getdetails=$this->Tasks->profile_farmer($this->input->post("farmer_NINnumber"));
+          foreach($getdetails as $r) $email=$r->emailaddress;
+
+          $to = $email;
+          $subject = "Message";
+          $txt = "Youve got a new notification from a new Buyer ";
+          $txt.=$this->input->post("buyer_NINnumber")."\n";
+          $txt.="At ".date("Y-m-d H:m:s");
+          $headers = "From: jacinta.mary@gmail.com"."\r\n";
+          echo $txt.'<p>'.$headers.'<p>'.$to;
+          print_r($getdetails);
+          exit();
+          mail($to,$subject,$txt,$headers);
+
+          if($bool){
+          $data['id']=$id;
+          $data['name']=$name;
           $data['msg']="<div class='row alert alert-success'><center>Message sent successfully</center></div>";
-        $data['assets']=$this->assets();
-        $data['wall']=$this->Tasks->wall();
-  $data['feed']=$this->Tasks->feed();
-    $data['count']=$this->Tasks->count();
-  $data['profile']=$this->Tasks->profile_farmer($id);
-  $data['sold_products']=$this->Tasks->sold_products($id);
-        $this->load->view("buyer",$data);
+          $data['assets']=$this->assets();
+          $data['wall']=$this->Tasks->wall();
+          $data['feed']=$this->Tasks->feed();
+          $data['count']=$this->Tasks->count();
+          $data['profile']=$this->Tasks->profile_farmer($id);
+          $data['sold_products']=$this->Tasks->sold_products($id);
+          $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+          $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+          $data['sent']=$this->Tasks->sent($id);
+          $data['profile']=$this->Tasks->profile_buyer($id);
+          $data['inbox']=$this->Tasks->inbox_buyer($id);
+          $this->load->view("buyer",$data);
       }else{
-        $data['id']=$id;
-        $data['name']=$name;
-          $data['msg']="<div class='row alert alert-danger'><center>Message Not sent</center></div>";
-        $data['assets']=$this->assets();
+        $data['msg']="<div class='row alert alert-success'><center>Message sent successfully</center></div>";
         $data['wall']=$this->Tasks->wall();
-  $data['feed']=$this->Tasks->feed();
-    $data['count']=$this->Tasks->count();
-  $data['profile']=$this->Tasks->profile_farmer($id);
-  $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['feed']=$this->Tasks->feed();
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+        $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+        $data['sent']=$this->Tasks->sent($id);
+        $data['profile']=$this->Tasks->profile_buyer($id);
+        $data['inbox']=$this->Tasks->inbox_buyer($id);
         $this->load->view("buyer",$data);
       }
     }
@@ -390,6 +444,11 @@ $data['sold_products']=$this->Tasks->sold_products($id);
     $data['count']=$this->Tasks->count();
     $data['profile']=$this->Tasks->profile_farmer($id);
     $data['sold_products']=$this->Tasks->sold_products($id);
+    $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+    $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+    $data['sent']=$this->Tasks->sent($id);
+    $data['profile']=$this->Tasks->profile_buyer($id);
+    $data['inbox']=$this->Tasks->inbox_buyer($id);
     $this->load->view("buyer",$data);
   }else{
     $data['id']=$id;
@@ -401,6 +460,11 @@ $data['sold_products']=$this->Tasks->sold_products($id);
     $data['count']=$this->Tasks->count();
     $data['profile']=$this->Tasks->profile_farmer($id);
     $data['sold_products']=$this->Tasks->sold_products($id);
+    $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+    $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+    $data['sent']=$this->Tasks->sent($id);
+    $data['profile']=$this->Tasks->profile_buyer($id);
+    $data['inbox']=$this->Tasks->inbox_buyer($id);
     $this->load->view("buyer",$data);
   }
 }
