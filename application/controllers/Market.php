@@ -191,6 +191,44 @@ public function add_farmer(){
     public function reply_buyer($id,$name,$msg_id){
       $package=$this->input->post(NULL,TRUE);
       $bool=$this->Tasks->message_buyer($package,$msg_id);
+      //mail and SMS
+      $getdetails=$this->Tasks->profile_farmer($this->input->post("farmer_NINnumber"));
+      $getBuyer=$this->Tasks->profile_buyer($this->input->post("buyer_NINnumber"));
+      $emailBuyer="";
+      $emailFarmer="";
+      $contact="";
+      foreach($getdetails as $r) {
+        $farmerNames=$r->surname." ".$r->othername;
+        $emailFarmer=$r->emailaddress;
+      }
+      foreach($getBuyer as $b){
+          $emailBuyer=$b->email;
+          $contact=$b->teleno;
+      }
+      $to = $emailBuyer;
+      $subject = "Message";
+      $txt = "Youve got a new notification from Farmer \n";
+      $txt.="NIN: ".$this->input->post("farmer_NINnumber")."\n";
+      $txt.="Names: ".$farmerNames."\n";
+      $txt.="Subject: ".$this->input->post("subject")."\n";
+      $txt.="Body: ".$this->input->post("body")."\n";
+      $txt.="Sent At: ".date("Y-m-d H:m:s");
+      $headers = "From: ".$emailFarmer."\r\n";
+
+      if(!mail($to,$subject,$txt,$headers)){
+        $data['warning']="<span class='alert alert-warning'>please Configure your Mail server to send Emails.</span>";
+      }
+
+       $gateway=new AfricasTalkingGateway("sandbox","cfdc0c20fe5d21a63e976159890e39e40ba6a6d642d37c34b625af3e4469d5b7");
+       try
+       {
+        $gateway->sendMessage($contact, $txt);
+       }
+       catch (AfricasTalkingGatewayException $e )
+       {
+         echo "Encountered an error while sending: ".$e->getMessage();
+       }
+
       if($bool){
         $data['msg']="<div class='row alert alert-success'><center>Message sent successfully<i class='fa fa-twitter'></i></center></div>";
         $data['id']=$id;
@@ -205,7 +243,7 @@ public function add_farmer(){
       }else{
         $data['msg']="<div class='row alert alert-danger'><center>Message Not sent .Error Occured</center></div>";
         $data['id']=$id;
-        $data['name']=$uname;
+        $data['name']=$name;
         $data['assets']=$this->assets();
         $data['wall']=$this->Tasks->wall();
         $data['feed']=$this->Tasks->feed();
@@ -215,59 +253,49 @@ public function add_farmer(){
         $this->load->view("farmer",$data);
       }
     }
-    public function send_sms($contact,$message=""){
-      $this->load->library("AfricasTalkingGateway");
 
-  }//end function
-    public function contact_farmer($id,$name){
-      $email="";
-      $contact="";
+    public function contact_farmer($id,$name,$product){
+          $email="";
+          $contact="";
           $package=$this->input->post(NULL,TRUE);
-        //  $bool=$this->Tasks->message_farmer($package);
+          $bool=$this->Tasks->message_farmer($package);
           $getdetails=$this->Tasks->profile_farmer($this->input->post("farmer_NINnumber"));
           foreach($getdetails as $r) {
-$email=$r->emailaddress;
-$contact=$r->teleno;
-           }
-           ///get buyers details
-           $buyerNames="";
-           $getBuyer=$this->Tasks->profile_buyer($this->input->post("buyer_NINnumber"));
-           foreach($getBuyer as $b){
-             $buyerNames=$b->surname." ".$b->othername;
-           }
+          $email=$r->emailaddress;
+          $contact=$r->teleno;
+          }
+          ///get buyers details
+          $buyerNames="";
+          $emailBuyer="";
+          $getBuyer=$this->Tasks->profile_buyer($this->input->post("buyer_NINnumber"));
+          foreach($getBuyer as $b){
+          $buyerNames=$b->surname." ".$b->othername;
+          $emailBuyer=$b->email;
+          }
 
           $to = $email;
           $subject = "Message";
           $txt = "Youve got a new notification from a new Buyer \n";
           $txt.="NIN: ".$this->input->post("buyer_NINnumber")."\n";
           $txt.="Names: ".$buyerNames."\n";
-          $txt.="Product: ".$this->input->post("prod_name")."\n";
+          $txt.="Product: ".$product."\n";
           $txt.="Subject: ".$this->input->post("subject")."\n";
           $txt.="Body: ".$this->input->post("body")."\n";
-          $txt.="At ".date("Y-m-d H:m:s");
-          $headers = "From: jacinta.mary@gmail.com"."\r\n";
-          echo $txt.'<p>'.$headers.'<p>'.$to;
-          print_r($getdetails);
+          $txt.="At: ".date("Y-m-d H:m:s");
+          $headers = "From: ".$emailBuyer."\r\n";
           if(!mail($to,$subject,$txt,$headers)){
-            echo "please Configure your Mail server to send Emails.";
+            echo "<span class='alert alert-warning'>please Configure your Mail server to send Emails.</span>";
           }
-          echo "<hr />";
-           //send sms
 
            $gateway=new AfricasTalkingGateway("sandbox","cfdc0c20fe5d21a63e976159890e39e40ba6a6d642d37c34b625af3e4469d5b7");
            try
            {
-
-             $results = $gateway->sendMessage($contact, $txt);
-             foreach($results as $result) {
-               echo $result->status;
-             }
+            $gateway->sendMessage($contact, $txt);
            }
            catch (AfricasTalkingGatewayException $e )
            {
              echo "Encountered an error while sending: ".$e->getMessage();
            }
-          exit();
           if($bool){
           $data['id']=$id;
           $data['name']=$name;

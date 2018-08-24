@@ -317,10 +317,9 @@ $x=0;
         <h4 class="modal-title"><?php echo $r->surname." ".$r->othername; ?><span class='pull-right'><?php $r->dtime_post; ?></span></h4>
       </div>
       <div class="modal-body">
-<form action=<?php echo $assets['base_url']."Market/contact_farmer/".$id.'/'.$name; ?> method="POST" class="form-horizontal">
+<form action=<?php echo $assets['base_url']."Market/contact_farmer/".$id.'/'.$name.'/'.$r->prod_title; ?> method="POST" class="form-horizontal">
 <input type="hidden" name="farmer_NINnumber" value="<?php echo $r->NINnumber; ?>"/>
 <input  type="hidden" name="buyer_NINnumber" value="<?php echo $id; ?>" />
-<input type="hidden" name="prod_name" value="<?php echo $r->prod_title; ?>" />
 <div class="form-group">
 <label class="col-md-3">Subject</label>
 <div class="col-md-6">

@@ -5,3 +5,4 @@
 <li class='pull-right'><a href='<?php echo $assets['base_url']."market/logout"; ?>'><span class='fa fa-sign-out'></span>Logout</a></li>
 
 </ul>
+<span class="pull-right"><?php echo (isset($warning))? $warning:""; ?></span>
