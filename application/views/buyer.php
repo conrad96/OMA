@@ -88,7 +88,7 @@ if(!empty($inbox)){
 ?>
 <ul class='list-group'>
   <li class='list-group-item'><b class='label label-primary'>From:</b>
-    <span class="text-muted pull-right"><?php echo $m->surname." ".$r->othername; ?></span>
+    <span class="text-muted pull-right"><?php echo $m->surname." ".$m->othername; ?></span>
   </li>
   <li class='list-group-item'><b class='label label-primary'>Subject:</b>
     <span class="text-muted pull-right"><?php echo $m->subject; ?></span>
@@ -320,6 +320,7 @@ $x=0;
 <form action=<?php echo $assets['base_url']."Market/contact_farmer/".$id.'/'.$name; ?> method="POST" class="form-horizontal">
 <input type="hidden" name="farmer_NINnumber" value="<?php echo $r->NINnumber; ?>"/>
 <input  type="hidden" name="buyer_NINnumber" value="<?php echo $id; ?>" />
+<input type="hidden" name="prod_name" value="<?php echo $r->prod_title; ?>" />
 <div class="form-group">
 <label class="col-md-3">Subject</label>
 <div class="col-md-6">
