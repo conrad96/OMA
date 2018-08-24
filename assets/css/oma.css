@@ -3,16 +3,22 @@
 	text-align: center;
 	font-size: 30px;
 	font-weight: bold;
-	text-shadow: 3px 5px 5px gray;
+	text-shadow: 10px 10px 10px lightblue;
+	background: lightblue;
+	height: 100px;
 }
 .login_form{
 	padding-top: 120px;
-	padding-left: 400px;
+	padding-left: 300px;
+}
+#logo{
+	width: 100px;
+	height: 100px;
 }
 #login_btn{
 	width: 300px;
 }
- 
+
 #in_f{
 	height: 40px;
 	width: 300px;
@@ -25,4 +31,13 @@
 	font-size: 15px;
 	text-transform: capitalize;
 	text-orientation: italic;
+}
+#left_panel_f{
+	height: 68%;
+	width: 100%;
+
+}
+#right_panel_f{
+	height: 64%;
+	width: 100%;
 }
