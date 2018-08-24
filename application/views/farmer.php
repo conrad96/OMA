@@ -497,7 +497,7 @@ $x=0;
     <li class='list-group-item'><b class='label label-primary'>Title:</b>
       <span class="text-muted pull-right"><?php echo $r->prod_title; ?></span>
     </li>
-    <li class='list-group-item'><b class='label label-primary'>Description:</b>
+    <li class='list-group-item' style='height:100px;overflow:auto;'><b class='label label-primary'>Description:</b>
       <span class="text-muted pull-right"><?php echo $r->prod_description; ?></span>
     </li>
     <li class='list-group-item'><b class='label label-primary'>Price:</b>
