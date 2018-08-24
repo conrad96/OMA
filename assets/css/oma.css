@@ -3,11 +3,17 @@
 	text-align: center;
 	font-size: 30px;
 	font-weight: bold;
-	text-shadow: 3px 5px 5px gray;
+	text-shadow: 10px 10px 10px lightblue;
+	background: lightblue;
+	height: 100px;
 }
 .login_form{
 	padding-top: 120px;
 	padding-left: 300px;
+}
+#logo{
+	width: 100px;
+	height: 100px;
 }
 #login_btn{
 	width: 300px;
