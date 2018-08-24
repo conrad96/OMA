@@ -108,7 +108,9 @@ class Tasks extends CI_Model{
   public function inbox_farmer($id){
     return $this->db->query("SELECT * FROM inbox INNER JOIN buyers ON buyers.NINnumber=inbox.buyer_NINnumber WHERE inbox.farmer_NINnumber='$id' AND inbox.status='unread' ORDER BY inbox.id DESC")->result();
   }
-
+  public function inbox_from_admin($id){
+    return $this->db->query("SELECT * FROM inbox INNER JOIN admin ON admin.NINnumber=inbox.buyer_NINnumber WHERE inbox.farmer_NINnumber='$id' ")->result();
+  }
   public function inbox_buyer($id){
     return $this->db->query("SELECT * FROM messages INNER JOIN farmers ON farmers.NINnumber=messages.farmer_NINnumber WHERE messages.buyer_NINnumber='$id' AND messages.status='unread' ORDER BY messages.dtime_posted DESC")->result();
   }
@@ -122,6 +124,9 @@ class Tasks extends CI_Model{
     }else{
       return false;
     }
+  }
+  public function complaints(){
+    return $this->db->select("*")->from("complaints")->get()->result();
   }
   public function profile_buyer($id){
     return $this->db->select("*")->from("buyers")->where("NINnumber",$id)->get()->result();

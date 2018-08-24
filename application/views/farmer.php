@@ -16,11 +16,16 @@
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-wechat'></span>Complain</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_inbox"  data-backdrop='static'><span class='fa fa-envelope-o'></span>&nbsp;Inbox<span class="badge"><?php
 $in=0;
+$km=0;
 if(!empty($inbox)){
 foreach($inbox as $r) $in++;
 echo $in;
 }else{
   echo $in;
+}
+if(!empty($inbox_admin)){
+  foreach($inbox_admin as $x) $km++;
+  echo $km;
 }
 ?></span></a></li>
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_profile" data-backdrop='static' ><span class='fa fa-user'></span>Profile</a></li>
@@ -84,7 +89,34 @@ if(!empty($inbox)){
   }else{
     echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No New Message Received ...<i class='fa fa-twitter'></i></div>";
   }
-
+if(!empty($inbox_admin)){
+  $rt=0;
+  foreach($inbox_admin as $j){
+    ?>
+    <ul class='list-group'>
+      <li class="list-group-item">Administrator Feedback</li>
+      <li class='list-group-item'><b class='label label-primary'>From:</b>
+        <span class="text-muted pull-right"><?php echo $j->fname." ".$j->lastname; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Subject:</b>
+        <span class="text-muted pull-right"><?php echo $j->subject; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Body:</b>
+        <span class="text-muted pull-right"><?php echo $j->body; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Status:</b>
+        <span class="text-muted pull-right"><?php echo $j->status; ?></span>
+      </li>
+      <li class='list-group-item'><b class='label label-primary'>Date posted:</b>
+        <span class="text-muted pull-right"><?php echo $j->dtime_posted; ?></span>
+      </li>
+    </ul>
+    <?php
+$rt++;
+  }
+}else{
+    echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No New Message Received from Admin...<i class='fa fa-twitter'></i></div>";
+}
 ?>
 </form>
 

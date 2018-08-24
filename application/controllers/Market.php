@@ -116,6 +116,7 @@ public function add_farmer(){
       $data['profile']=$this->Tasks->profile_farmer($id);
       $data['sold_products']=$this->Tasks->sold_products($id);
       $data['inbox']=$this->Tasks->inbox_farmer($id);
+      $data['inbox_admin']=$this->Tasks->inbox_from_admin($id);
       $this->load->view("farmer",$data);
     }
     public function admin($id,$name){
@@ -127,6 +128,7 @@ public function add_farmer(){
       $data['farmers']=$this->Tasks->farmers();
       $data['profile']=$this->Tasks->profile_admin($id);
       $data['feed']=$this->Tasks->feed();
+      $data['comp']=$this->Tasks->complaints();
       $this->load->view("admin",$data);
     }
     public function add_Market($id,$name){
@@ -253,8 +255,80 @@ public function add_farmer(){
         $this->load->view("farmer",$data);
       }
     }
+    public function contact_farmer_admin($id,$name,$product=""){
+      $email="";
+      $contact="";
+      $package=$this->input->post(NULL,TRUE);
+      $bool=$this->Tasks->message_farmer($package);
+      $getdetails=$this->Tasks->profile_farmer($this->input->post("farmer_NINnumber"));
+      foreach($getdetails as $r) {
+      $email=$r->emailaddress;
+      $contact=$r->teleno;
+      }
+      ///get buyers details
+      $buyerNames="";
+      $emailBuyer="";
+      $getBuyer=$this->Tasks->profile_buyer($this->input->post("buyer_NINnumber"));
+      foreach($getBuyer as $b){
+      $buyerNames=$b->surname." ".$b->othername;
+      $emailBuyer=$b->email;
+      }
 
-    public function contact_farmer($id,$name,$product){
+      $to = $email;
+      $subject = "Message";
+      $txt = "Youve got a new notification from a new Buyer \n";
+      $txt.="NIN: ".$this->input->post("buyer_NINnumber")."\n";
+      $txt.="Names: ".$buyerNames."\n";
+      $txt.="Product: ".$product."\n";
+      $txt.="Subject: ".$this->input->post("subject")."\n";
+      $txt.="Body: ".$this->input->post("body")."\n";
+      $txt.="At: ".date("Y-m-d H:m:s");
+      $headers = "From: ".$emailBuyer."\r\n";
+      if(!mail($to,$subject,$txt,$headers)){
+        echo "<span class='alert alert-warning'>please Configure your Mail server to send Emails.</span>";
+      }
+
+       $gateway=new AfricasTalkingGateway("sandbox","cfdc0c20fe5d21a63e976159890e39e40ba6a6d642d37c34b625af3e4469d5b7");
+       try
+       {
+        $gateway->sendMessage($contact, $txt);
+       }
+       catch (AfricasTalkingGatewayException $e )
+       {
+         echo "Encountered an error while sending: ".$e->getMessage();
+       }
+      if($bool){
+      $data['id']=$id;
+      $data['name']=$name;
+      $data['msg']="<div class='row alert alert-success'><center>Message sent successfully</center></div>";
+      $data['assets']=$this->assets();
+      $data['wall']=$this->Tasks->wall();
+      $data['feed']=$this->Tasks->feed();
+      $data['count']=$this->Tasks->count();
+      $data['profile']=$this->Tasks->profile_farmer($id);
+      $data['sold_products']=$this->Tasks->sold_products($id);
+      $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+      $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+      $data['sent']=$this->Tasks->sent($id);
+      $data['profile']=$this->Tasks->profile_buyer($id);
+      $data['inbox']=$this->Tasks->inbox_buyer($id);
+      $this->load->view("admin",$data);
+  }else{
+    $data['msg']="<div class='row alert alert-success'><center>Message sent successfully</center></div>";
+    $data['wall']=$this->Tasks->wall();
+    $data['feed']=$this->Tasks->feed();
+    $data['count']=$this->Tasks->count();
+    $data['profile']=$this->Tasks->profile_farmer($id);
+    $data['sold_products']=$this->Tasks->sold_products($id);
+    $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+    $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+    $data['sent']=$this->Tasks->sent($id);
+    $data['profile']=$this->Tasks->profile_buyer($id);
+    $data['inbox']=$this->Tasks->inbox_buyer($id);
+    $this->load->view("admin",$data);
+  }
+    }
+    public function contact_farmer($id,$name,$product=""){
           $email="";
           $contact="";
           $package=$this->input->post(NULL,TRUE);
