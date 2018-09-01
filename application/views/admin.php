@@ -54,7 +54,9 @@ if(!empty($comp)){
 
     <?php
   }
-}
+}  else{
+    echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No Complaints have been Posted yet. Please wait...</div>";
+  }
           ?>
 
         </form>

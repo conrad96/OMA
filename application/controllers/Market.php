@@ -41,7 +41,7 @@ if(empty($this->input->post("password") )) {
   $this->load->view("index-signup-f",$data);
 }else{
   $package=$this->input->post(NULL,true);
-  $bool=$this->Tasks->register_farmer($package);
+  $bool=$this->Tasks->register_buyer($package);
   if($bool){
     $data['assets']=$this->assets();
   $data['msg']="<div class='row alert alert-success'><center>Account Created Successfully. Please follow this link to  <a href='http://localhost/OMA/index.php/Market/index'>Login</a></center></div>";
