@@ -13,7 +13,7 @@
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_view"  data-backdrop='static'><span class='fa fa-list-ul'></span>View Wall</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_post"  data-backdrop='static'><span class='fa fa-envelope-o'></span>&nbsp;Inbox<span class="badge"><?php echo $inbox_count; ?></span></a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_sold"  data-backdrop='static'><span class='fa fa-envelope'></span>Sent Messages</a></li>
-<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-wechat'></span>Complaints</a></li>
+<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-wechat'></span>Product Request</a></li>
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_profile" data-backdrop='static' ><span class='fa fa-user'></span>Profile</a></li>
 </ul>
 <p />
@@ -165,14 +165,17 @@ if(isset($wall)){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Post a Complaint</h4>
+        <h4 class="modal-title">Post Product Request</h4>
       </div>
       <div class="modal-body">
-        <form action=<?php echo $assets['base_url'].'Market/post_complaint/'.$id.'/'.$name; ?> method="POST" class='form-horizontal'>
+        <form action=<?php echo $assets['base_url'].'Market/post_complaint_buyer/'.$id.'/'.$name; ?> method="POST" class='form-horizontal'>
+<input type="hidden" name="status" value="unread" />
+<input type="hidden" name="buyer_NINnumber" value="<?php echo $id; ?>" />
+<input type="hidden" name="farmer_NINnumber" value="open" />
 <div class="form-group">
 <label class="col-md-3">Title</label>
 <div class="col-md-6">
-<input type="text" name="title" class="form-control" placeholder="Type Title of complaint Here" />
+<input type="text" name="subject" class="form-control" placeholder="Type Title of complaint Here" />
 </div>
 </div>
 <div class="form-group">

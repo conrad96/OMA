@@ -1,7 +1,6 @@
 <?php
 require_once("AfricasTalkingGateway.php");
 class Market extends CI_Controller{
-
   public function assets(){
 		$data['bootstrap']=$this->config->item("bootstrap");
 		$data['base_url']=$this->config->item("base_url");
@@ -117,6 +116,7 @@ public function add_farmer(){
       $data['sold_products']=$this->Tasks->sold_products($id);
       $data['inbox']=$this->Tasks->inbox_farmer($id);
       $data['inbox_admin']=$this->Tasks->inbox_from_admin($id);
+      $data['inbox_request']=$this->Tasks->inbox_request();
       $this->load->view("farmer",$data);
     }
     public function admin($id,$name){
@@ -130,6 +130,27 @@ public function add_farmer(){
       $data['feed']=$this->Tasks->feed();
       $data['comp']=$this->Tasks->complaints();
       $this->load->view("admin",$data);
+    }
+    public function add_district($id,$name){
+      $content=$this->input->post(NULL,TRUE);
+      $bool=$this->Tasks->add_district($content);
+      if($bool){
+        $data['id']=$id;
+        $data['name']=$name;
+          $data['msg']="<div class='row alert alert-success'><center>District  Added</center></div>";
+        $data['assets']=$this->assets();
+        $data['buyers']=$this->Tasks->buyers();
+        $data['farmers']=$this->Tasks->farmers();
+        $this->load->view("admin",$data);
+      }else{
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['msg']="<div class='row alert alert-danger'><center>District Not Added</center></div>";
+        $data['assets']=$this->assets();
+        $data['buyers']=$this->Tasks->buyers();
+        $data['farmers']=$this->Tasks->farmers();
+        $this->load->view("admin",$data);
+      }
     }
     public function add_Market($id,$name){
       $package=$this->input->post(NULL,TRUE);
@@ -459,6 +480,43 @@ public function add_farmer(){
         $data['profile']=$this->Tasks->profile_farmer($id);
           $data['sold_products']=$this->Tasks->sold_products($id);
         $this->load->view("farmer",$data);
+      }
+    }
+    public function post_complaint_buyer($id,$name){
+      $package=$this->input->post(NULL,TRUE);
+      $bool=$this->Tasks->post_complaint_buyer_to_farmer_req($package);
+      if($bool){
+        $data['msg']="<div class='row alert alert-success'><center>Request Sent</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+        $data['feed']=$this->Tasks->feed();
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+        $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+        $data['sent']=$this->Tasks->sent($id);
+        $data['profile']=$this->Tasks->profile_buyer($id);
+        $data['inbox']=$this->Tasks->inbox_buyer($id);
+        $this->load->view("buyer",$data);
+      }else{
+        $data['msg']="<div class='row alert alert-danger'><center>Request Not sent. Error Occured</center></div>";
+        $data['id']=$id;
+        $data['name']=$name;
+        $data['assets']=$this->assets();
+        $data['wall']=$this->Tasks->wall();
+        $data['feed']=$this->Tasks->feed();
+        $data['count']=$this->Tasks->count();
+        $data['profile']=$this->Tasks->profile_farmer($id);
+        $data['sold_products']=$this->Tasks->sold_products($id);
+        $data['count_sent_buyer']=$this->Tasks->count_sent_buyer($id);
+        $data['inbox_count']=$this->Tasks->inbox_buyer_count($id);
+        $data['sent']=$this->Tasks->sent($id);
+        $data['profile']=$this->Tasks->profile_buyer($id);
+        $data['inbox']=$this->Tasks->inbox_buyer($id);
+        $this->load->view("buyer",$data);
       }
     }
     public function post_complaint($id,$name){

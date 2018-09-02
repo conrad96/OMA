@@ -13,11 +13,47 @@
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_view"  data-backdrop='static'><span class='fa fa-group'></span>&nbsp;&nbsp;View Farmers</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_post"  data-backdrop='static'><span class='fa fa-group'></span>&nbsp;&nbsp;View Buyers</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_sold"  data-backdrop='static'><span class='fa fa-dollar'></span>&nbsp;&nbsp;Add Market</a></li>
+<li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_district"  data-backdrop='static'><span class='fa fa-file'></span>&nbsp;&nbsp;Add District</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complain"  data-backdrop='static' ><span class='fa fa-apple'></span>&nbsp;&nbsp;Add Product Category</a></li>
 <li class="list-group-item"><a href='#' data-toggle="modal" data-target="#myModal_complaints"  data-backdrop='static' ><span class='fa fa-wechat'></span>Complaints</a></li>
 <li class="list-group-item"><a href='#'  data-toggle="modal" data-target="#myModal_profile" data-backdrop='static' ><span class='fa fa-user'></span>&nbsp;&nbsp;Profile</a></li>
 </ul>
-<p />
+<div id="myModal_district" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">District</h4>
+      </div>
+      <div class="modal-body">
+        <form class='form-horizontal' action=<?php echo $assets['base_url']."Market/add_district/".$id."/".$name; ?> method="POST" >
+          <div class="form-group">
+          <label class="col-md-3">District Title:</label>
+          <div class="col-md-6">
+          <input type="text" name="district_name" class="form-control" placeholder="Type name of Market" />
+          </div>
+          </div>
+          <div class="form-group">
+          <label class="col-md-3">City:</label>
+          <div class="col-md-6">
+          <input type="text" name="district_city" class="form-control" placeholder="Type name of Market" />
+          </div>
+          </div>
+          <div class="form-group">
+          <label class="col-md-3">&nbsp;</label>
+          <div class="col-md-6">
+          <input type="submit" value="Add District" class="btn btn-primary" />
+          </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="myModal_complaints" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->

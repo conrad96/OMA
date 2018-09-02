@@ -15,6 +15,19 @@ class Tasks extends CI_Model{
     $data['NINnumber']=$array[2];
     return ($this->db->insert("complaints",$data))? true:false;
   }
+  public function inbox_request(){
+    //return $this->db->select("*")->from("inbox")->where("farmer_NINnumber","open")->where("status","unread")->get()->result();
+$query=$this->db->query("
+SELECT * FROM inbox INNER JOIN buyers ON buyers.NINnumber=inbox.buyer_NINnumber WHERE inbox.status='unread' AND inbox.farmer_NINnumber='open'
+")->result();
+return $query;
+  }
+  public function post_complaint_buyer_to_farmer_req($array){
+    return ($this->db->insert("inbox",$array))? true:false;
+  }
+  public function add_district($array){
+    return $this->db->insert("districts",$array)? true:false;
+  }
   public function profile_farmer($id){
     return $this->db->select("*")->from("farmers")->where("NINnumber",$id)->get()->result();
   }

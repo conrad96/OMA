@@ -117,6 +117,34 @@ $rt++;
 }else{
     echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No New Message Received from Admin...<i class='fa fa-twitter'></i></div>";
 }
+if(!empty($inbox_request))
+{
+$inb_req=0;
+foreach($inbox_request as $p){
+  ?>
+  <ul class='list-group'>
+    <li class="list-group-item">Product Requests</li>
+    <li class='list-group-item'><b class='label label-primary'>From:</b>
+      <span class="text-muted pull-right"><?php echo $p->surname." ".$p->othername; ?></span>
+    </li>
+    <li class='list-group-item'><b class='label label-primary'>Subject:</b>
+      <span class="text-muted pull-right"><?php echo $p->subject; ?></span>
+    </li>
+    <li class='list-group-item'><b class='label label-primary'>Body:</b>
+      <span class="text-muted pull-right"><?php echo $p->body; ?></span>
+    </li>
+    <li class='list-group-item'><b class='label label-primary'>Status:</b>
+      <span class="text-muted pull-right"><?php echo $p->status; ?></span>
+    </li>
+    <li class='list-group-item'><b class='label label-primary'>Date posted:</b>
+      <span class="text-muted pull-right"><?php echo $p->dtime_posted; ?></span>
+    </li>
+  </ul>
+  <?php $inb_req++; }
+}
+else{
+  echo "<div class='row alert alert-warning'><i class='fa fa-exclamation-triangle'></i>No New Product Request...<i class='fa fa-twitter'></i></div>";
+  }
 ?>
 </form>
 
